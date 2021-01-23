@@ -1,0 +1,102 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Access the bootstrap Css like this,
+        Spring boot will handle the resource mapping automcatically -->
+    <link href="<c:url value="/webjars/bootstrap/4.4.1-1/css/bootstrap.min.css"/>" rel="stylesheet">
+
+
+    <%@ taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+    <c:url value="" var="jstlCss" />
+    <link href="${jstlCss}" rel="stylesheet" />
+
+</head>
+
+
+
+
+ <security:authorize access="isAuthenticated()">
+        <security:authentication property="principal.username" var="user"/>
+
+
+
+        <security:authorize access="hasRole('ADMIN')" >
+
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+                <!-- Links -->
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin">Admin Panel</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout</a>
+                    </li>
+                        <li class="nav-item" >
+
+                            <h2  class=" text-success"> ${user}  </h2>
+                        </li>
+
+                </ul>
+
+            </nav>
+        </security:authorize>
+     <security:authorize access="hasRole('USER')" >
+         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+         <!-- Links -->
+         <ul class="navbar-nav">
+             <li class="nav-item">
+                 <a class="nav-link" href="/">Home</a>
+             </li>
+
+             <li class="nav-item">
+                 <a class="nav-link" href="/logout">Logout</a>
+             </li>
+
+             <li class="nav-item" >
+
+                 <h2  class=" text-success"> User name: ${user}  </h2>
+             </li>
+         </ul>
+         </nav>
+
+     </security:authorize>
+
+ </security:authorize>
+<security:authorize access="!isAuthenticated()">
+
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+
+        <!-- Links -->
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/signup">Signup</a>
+            </li>
+
+
+        </ul>
+    </nav>
+</security:authorize>
+
+
+////
+    <c:if test="${albums ne null}">
+
+</c:if>
+///
+            <c:forEach items="${albums}" var="albums">
+
